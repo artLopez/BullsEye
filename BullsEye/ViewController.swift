@@ -30,10 +30,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showAlert(){
-        let difference = calculateScore()
-        let message = "The value of the slider is now: \(currentSliderValue) " +
-                      "\n The target value is : \(targetValue)" +
-                      "\n The difference is: \(difference)"
+        let points = calculatePoints()
+        let message = "You scored \(points) points!"
         
         let alert = UIAlertController(title: "Hello World", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
@@ -72,18 +70,12 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
     }
     
-    func calculateScore() -> Int{
-        var difference: Int = 0
+    func calculatePoints() -> Int{
         
-        if currentSliderValue < targetValue {
-            difference = targetValue - currentSliderValue
-        }else{
-            difference = currentSliderValue - targetValue
-        }
+        let difference = abs(targetValue - currentSliderValue)
+        score += (100 - difference)
         
-        score += difference
-        
-        return difference
+        return score
     }
 
 
