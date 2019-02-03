@@ -30,14 +30,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showAlert(){
+        let difference = calculateScore()
         let message = "The value of the slider is now: \(currentSliderValue) " +
-                      "\n The target value is : \(targetValue)"
+                      "\n The target value is : \(targetValue)" +
+                      "\n The difference is: \(difference)"
         
         let alert = UIAlertController(title: "Hello World", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil )
+        
+   
         startNewRound()
     }
     
@@ -63,9 +67,23 @@ class ViewController: UIViewController {
     }
     
     func updateLabels() {
-        targetLabel.text = String(targetValue)
+        scoreLabel.text = String(score)
         roundLabel.text = String(round)
+        targetLabel.text = String(targetValue)
+    }
+    
+    func calculateScore() -> Int{
+        var difference: Int = 0
         
+        if currentSliderValue < targetValue {
+            difference = targetValue - currentSliderValue
+        }else{
+            difference = currentSliderValue - targetValue
+        }
+        
+        score += difference
+        
+        return difference
     }
 
 
