@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     var round: Int = 0
     var targetValue: Int = 0
     var currentSliderValue : Int = 0
+    var alertTitle: String?
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
         let points = calculatePoints()
         let message = "You scored \(points) points!"
         
-        let alert = UIAlertController(title: "Hello World", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Awesome", style: .default, handler: nil)
         
         alert.addAction(action)
@@ -70,12 +71,40 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
     }
     
-    func calculatePoints() -> Int{
+    func calculatePoints() -> Int {
         
         let difference = abs(targetValue - currentSliderValue)
-        score += (100 - difference)
+        setAlertTitle(diff: difference)
         
-        return score
+        var roundPoints = (100 - difference) + calculateBonusPoints(diff: difference)
+        
+        score += roundPoints
+        
+        return roundPoints
+    }
+    
+    func setAlertTitle(diff: Int)  {
+        
+        if(diff == 0) {
+            alertTitle = "Perfect!"
+        } else if(diff < 5){
+            alertTitle = "You almost had it!"
+        } else if(diff < 10) {
+            alertTitle = "Pretty good!"
+        } else {
+            alertTitle = "Not even close..."
+        }
+        
+    }
+    
+    func calculateBonusPoints(diff: Int) -> Int {
+        if(diff == 0){
+            return 100
+        } else if(diff == 1) {
+            return 50
+        }else{
+            return 0
+        }
     }
 
 
